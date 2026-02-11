@@ -79,12 +79,7 @@ html, body{
   z-index: 1;
   pointer-events:none;
   mix-blend-mode: lighter; /* <-- change from screen */
-  opacity: .85;
-  width: 100vw;
-  height: 100vh;
-  max-width: 100%;
-  max-height: 100%;
-  overflow: hidden;
+  opacity: .85;            /* <-- slightly lower so it doesn’t haze text */
 }
 
 
@@ -323,4 +318,18 @@ h1{
     filter: blur(16px);
     opacity: .9;
   }
+}
+@media (max-width: 768px){
+
+  .wrap{
+    min-height: auto;
+    display: block;
+    padding-top: 14vh;   /* pushes content down slightly */
+    padding-bottom: 10vh;
+  }
+
+  .hero{
+    padding: 40px 20px 60px;
+  }
+
 }
