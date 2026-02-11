@@ -1,0 +1,267 @@
+:root{
+      --emerald-1:#02140f;
+      --emerald-2:#04231b;
+      --emerald-3:#063126;
+      --ink:#00060a;
+
+      --gold-1:#f6e7a8;
+      --gold-2:#d6b35a;
+      --gold-3:#a77b2a;
+
+      --card:#071a15cc;
+      --text:#eaf7f1;
+      --muted:#b9d3c9;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      overflow-x:hidden;
+    }
+
+    /* ====== BACKGROUND LAYERS ====== */
+    .bg {
+      position:fixed;
+      inset:0;
+      z-index:-3;
+      background:
+        radial-gradient(1200px 800px at 20% 30%, rgba(12, 88, 68, .45), transparent 60%),
+        radial-gradient(900px 700px at 80% 25%, rgba(10, 55, 42, .35), transparent 55%),
+        radial-gradient(900px 900px at 50% 90%, rgba(6, 55, 44, .40), transparent 60%),
+        linear-gradient(180deg, var(--ink), var(--emerald-1) 35%, var(--emerald-2) 70%, #000 100%);
+    }
+
+    /* subtle vignette + haze */
+   .bg::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  background:
+    radial-gradient(900px 600px at 50% 40%, rgba(255,255,255,.05), transparent 60%),
+    radial-gradient(900px 700px at 50% 60%, rgba(0,0,0,.35), transparent 60%);
+  filter: blur(6px);
+  opacity:.8;
+}
+
+
+    /* faux “film grain” so it feels less flat */
+    .grain{
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      opacity:.09;
+      mix-blend-mode:overlay;
+      animation: grainMove 8s steps(10) infinite;
+    }
+    @keyframes grainMove{
+      0%{ transform:translate3d(0,0,0); }
+      20%{ transform:translate3d(-2%,1%,0); }
+      40%{ transform:translate3d(2%,-1%,0); }
+      60%{ transform:translate3d(-1%,-2%,0); }
+      80%{ transform:translate3d(1%,2%,0); }
+      100%{ transform:translate3d(0,0,0); }
+    }
+
+    /* Canvas sparkles layer (animated via JS) */
+  #sparkles{
+  position:fixed;
+  inset:0;
+  z-index: 1;
+  pointer-events:none;
+  mix-blend-mode: lighter; /* <-- change from screen */
+  opacity: .85;            /* <-- slightly lower so it doesn’t haze text */
+}
+
+
+    /* ====== PAGE LAYOUT ====== */
+    .wrap{
+  position: relative;
+  z-index: 2;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding: clamp(24px, 4vw, 56px);
+}
+
+    .hero{
+  width:min(920px, 100%);
+  text-align:center;
+  position:relative;
+  padding: clamp(48px, 6vw, 96px);
+}
+
+    /* GOLD SPARKLE “CLOUD” behind the center title (CSS-only layer) */
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:-35%;
+  z-index:-1;
+text-shadow:
+  1px 0 0 rgba(0,0,0,.75),
+  -1px 0 0 rgba(0,0,0,.75),
+  0 1px 0 rgba(0,0,0,.75),
+  0 -1px 0 rgba(0,0,0,.75),
+  /* tighter, higher-contrast “void” right behind the title */
+  background:
+    radial-gradient(ellipse at 50% 40%,
+      rgba(0,0,0,.88) 0%,
+      rgba(0,0,0,.72) 26%,
+      rgba(0,0,0,.45) 40%,
+      rgba(0,0,0,.18) 54%,
+      transparent 70%
+    );
+
+  filter: blur(10px);
+  opacity: 1;
+}
+
+@keyframes voidBreath{
+  0%   { transform: scale(1); opacity:.9; }
+  50%  { transform: scale(1.04); opacity:1; }
+  100% { transform: scale(1); opacity:.9; }
+}
+    @keyframes glowDrift{
+      0%   { transform: translate(-1%, 0%) scale(1);   opacity:.85; }
+      50%  { transform: translate(1%, -1%) scale(1.02); opacity:1; }
+      100% { transform: translate(-1%, 0%) scale(1);   opacity:.85; }
+    }
+
+    /* optional extra “ring/portal” glow behind header */
+ .portalGlow{
+  position:absolute;
+  left:50%;
+  top:-170px;
+  transform: translateX(-50%);
+  width:min(640px, 98vw);
+  aspect-ratio: 1 / 1;
+  border-radius: 999px;
+  pointer-events:none;
+  z-index:-1;
+
+  /* NOT a ring — a soft portal bloom + depth */
+  background:
+    /* dark core behind the title */
+    radial-gradient(circle at 50% 55%,
+      rgba(0,0,0,.92) 0%,
+      rgba(0,0,0,.82) 34%,
+      rgba(0,0,0,.55) 52%,
+      rgba(0,0,0,0) 72%
+    ),
+    /* warm gold bloom (no edge ring) */
+    radial-gradient(circle at 52% 48%,
+      rgba(255,220,140,.14) 0%,
+      rgba(255,200,110,.10) 22%,
+      rgba(255,200,110,.06) 40%,
+      rgba(255,200,110,0) 66%
+    ),
+    /* emerald ambient glow */
+    radial-gradient(circle at 46% 62%,
+      rgba(10,85,64,.12) 0%,
+      rgba(10,85,64,0) 62%
+    );
+
+  filter: blur(18px);
+  opacity: .95;
+}
+    .kicker{
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color: rgba(234,247,241,.85);
+      font-size: 12px;
+    }
+
+h1 {
+    margin: 10px 0 8px;
+    font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+    font-size: clamp(48px, 7vw, 86px);
+    line-height: 1.02;
+    font-weight: 900;
+    letter-spacing: .045em;
+    filter: saturate(1.08);
+    color: transparent;
+    background-image: linear-gradient(180deg, #fffde8 0%, /* bright champagne */ #f5e30c 16%, #ffd700 34%, /* TRUE gold midtone */ #f0c35a 52%, #e9a810 72%, #a87418 100% /* warm gold shadow — NOT brown */);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .45), 0 8px 20px rgb(0 0 0 / 28%), 0 0 20px rgb(255 235 170 / 15%), 0 0 48px rgba(255, 215, 120, .25);
+}
+
+
+@keyframes goldSweep{
+  0%, 55% { transform: translateX(-55%); opacity: 0; }
+  65%     { opacity: .55; }
+  85%     { transform: translateX(55%); opacity: .55; }
+  100%    { transform: translateX(55%); opacity: 0; }
+}
+
+
+    .sub{
+      max-width: 56ch;
+      margin: 0 auto 22px;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 20px);
+      line-height:1.5;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(214,179,90,.35);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(246,231,168,.20), transparent 45%),
+        linear-gradient(180deg, rgba(64, 18, 44, .95), rgba(35, 10, 26, .95));
+      color: rgba(246,231,168,.95);
+      font-weight: 700;
+      letter-spacing:.06em;
+      text-transform: uppercase;
+      cursor:pointer;
+      box-shadow:
+        0 18px 50px rgba(0,0,0,.45),
+        0 0 0 1px rgba(255,255,255,.03) inset;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .cta:hover{
+      transform: translateY(-1px);
+      box-shadow:
+        0 22px 60px rgba(0,0,0,.55),
+        0 0 0 1px rgba(255,255,255,.04) inset;
+    }
+
+    /* small decorative twinkles near the title (CSS) */
+    .twinkles{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      opacity:.9;
+      mask-image: radial-gradient(circle at 50% 45%, #000 0 42%, transparent 70%);
+    }
+    .twinkles span{
+      position:absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(246,231,168,.9);
+      box-shadow: 0 0 10px rgba(246,231,168,.8);
+      animation: twinkle 2.8s ease-in-out infinite;
+    }
+    @keyframes twinkle{
+      0%,100%{ transform: scale(.6); opacity:.35; }
+      50%{ transform: scale(1.35); opacity:1; }
+    }
+
+    /* responsive safety */
+    @media (max-width: 520px){
+      .hero{ border-radius: 20px; }
+      .portalGlow{ top:-190px; }
+    }
