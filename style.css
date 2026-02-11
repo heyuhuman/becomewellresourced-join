@@ -321,15 +321,20 @@ h1{
 }
 @media (max-width: 768px){
 
-  .wrap{
-    min-height: auto;
-    display: block;
-    padding-top: 14vh;   /* pushes content down slightly */
-    padding-bottom: 10vh;
+  .kicker{
+    margin-bottom: 8px;
   }
 
-  .hero{
-    padding: 40px 20px 60px;
+  h1{
+    font-size: clamp(32px, 7vw, 60px);
+    margin: 8px 0 12px;
+    padding:15px 0px;
+    line-height:1.2;
+  }
+
+  .sub{
+    margin-bottom: 26px;
   }
 
 }
+
