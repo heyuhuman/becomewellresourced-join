@@ -4,11 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>The Prosperity Portal</title>
+
+  <!-- Cormorant Garamond -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
 
-<div class="bg"></div>
+<body>
+  <div class="bg"></div>
   <div class="grain"></div>
   <canvas id="sparkles"></canvas>
 
@@ -16,7 +22,6 @@
     <section class="hero">
       <div class="portalGlow"></div>
 
-      <!-- CSS twinkles (static-ish) -->
       <div class="twinkles" aria-hidden="true">
         <span style="left:18%; top:28%; animation-delay:.2s;"></span>
         <span style="left:26%; top:38%; animation-delay:1.1s;"></span>
@@ -28,7 +33,12 @@
       </div>
 
       <div class="kicker">Welcome to the</div>
-      <h1>PROSPERITY<br/>PORTAL</h1>
+
+      <h1>
+        <span class="word prosperity">Prosperity</span><br>
+        <span class="word portal">Portal</span>
+      </h1>
+
       <p class="sub">It’s time to defy the odds</p>
       <button class="cta" type="button">Enter the Portal</button>
     </section>
