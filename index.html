@@ -9,30 +9,23 @@
 <body>
 
 <div class="bg"></div>
-  <div class="grain"></div>
-  <canvas id="sparkles"></canvas>
+<div class="grain"></div>
 
-  <main class="wrap">
-    <section class="hero">
-      <div class="portalGlow"></div>
+<header class="hero" id="hero">
+  <canvas id="sparkles" aria-hidden="true"></canvas>
 
-      <!-- CSS twinkles (static-ish) -->
-      <div class="twinkles" aria-hidden="true">
-        <span style="left:18%; top:28%; animation-delay:.2s;"></span>
-        <span style="left:26%; top:38%; animation-delay:1.1s;"></span>
-        <span style="left:42%; top:22%; animation-delay:.7s;"></span>
-        <span style="left:58%; top:26%; animation-delay:1.6s;"></span>
-        <span style="left:72%; top:36%; animation-delay:.4s;"></span>
-        <span style="left:81%; top:24%; animation-delay:1.9s;"></span>
-        <span style="left:62%; top:40%; animation-delay:1.2s;"></span>
-      </div>
+  <div class="heroInner">
+    <div class="kicker">Welcome to the</div>
+    <h1 class="prosperity-portal-title">
+    <span class="prosperity">Prosperity</span>
+    <span class="portal">Portal</span>
+</h1>
+    <p class="sub">Where wealth stops feeling hard… and starts feeling safe.</p>
+    <button class="cta" type="button">Enter the Portal</button>
+  </div>
 
-      <div class="kicker">Welcome to the</div>
-      <h1>PROSPERITY<br/>PORTAL</h1>
-      <p class="sub">It’s time to defy the odds</p>
-      <button class="cta" type="button">Enter the Portal</button>
-    </section>
-  </main>
+  <div class="heroFade" aria-hidden="true"></div>
+</header>
 
   <script src="app.js"></script>
 </body>
