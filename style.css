@@ -147,6 +147,7 @@ text-shadow:
   border-radius: 999px;
   pointer-events:none;
   z-index:-1;
+  
 
   /* NOT a ring — a soft portal bloom + depth */
   background:
@@ -181,7 +182,7 @@ text-shadow:
     }
 
 h1 {
-    margin: 10px 0 8px;
+    
     font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
     font-size: clamp(48px, 7vw, 86px);
     line-height: 1.02;
@@ -242,11 +243,13 @@ h1 {
 .prosperity-portal-title .prosperity {
     display: block;
     font-size: clamp(64px, 9vw, 110px);
+    margin-top: 20px;
 }
 
 .prosperity-portal-title .portal {
     display: block;
     font-size: clamp(48px, 7vw, 80px);
+    margin-bottom: 20px;
 }
 @keyframes goldSweep{
   0%, 55% { transform: translateX(-55%); opacity: 0; }
@@ -345,6 +348,7 @@ h1{
     font-size: clamp(38px, 10.5vw, 54px);
     letter-spacing: .02em;     /* big spacing kills mobile */
     line-height: 1.03;
+    
   }
 
   /* your "WELCOME TO THE" */
