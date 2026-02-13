@@ -19,7 +19,18 @@ html, body{
   margin:0;
   padding:0;
   width:100%;
-  overflow-x:hidden; /* kills sideways swipe */
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+body{
+  position:relative;
+  overscroll-behavior-x: none;   /* stops side swipe */
+  touch-action: pan-y;           /* allow vertical scroll only */
+}
+
+.hero, .heroInner, .title, .kicker, .sub, .cta{
+  max-width: 100%;
 }
 
 /* =========================
@@ -113,6 +124,7 @@ html, body{
   margin: 0 0 12px;
   line-height: .95;
   text-transform: uppercase;
+  overflow-wrap: anywhere; /* prevents text from forcing horizontal scroll */
 }
 
 .title .word{
@@ -290,3 +302,29 @@ html, body{
   letter-spacing:.04em;
 }
 
+@media (max-width: 520px){
+  .hero{
+    min-height: 100svh;     /* better than 100vh on mobile */
+    padding: 48px 18px;
+  }
+
+  .heroInner{
+    width: 100%;
+    padding: 16px;
+  }
+
+  .title .prosperity{
+    font-size: clamp(40px, 12vw, 64px);
+    letter-spacing: .08em;  /* reduce so it doesn’t push wider than screen */
+  }
+
+  .title .portal{
+    font-size: clamp(32px, 10vw, 52px);
+    letter-spacing: .16em;  /* reduce */
+  }
+
+  .cta{
+    width: min(340px, 88vw);
+    padding: 16px 22px;
+  }
+}
