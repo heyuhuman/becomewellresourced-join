@@ -206,7 +206,6 @@
   createSparkleField(document.getElementById("sparklesBottom"));
 })();
 
-
 // ====== PERSONALIZED KICKERS ======
 (function(){
   const params = new URLSearchParams(window.location.search);
@@ -235,3 +234,5 @@
     bottomKicker.textContent = `${name}… JOIN US INSIDE THE`;
   }
 })();
+
+
