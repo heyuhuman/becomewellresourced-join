@@ -205,25 +205,27 @@ body{
 
 
 .testInner{
-  width: min(800px, 92vw);
-  margin: 0 auto;
+  width:min(800px, 92vw);
+  margin:0 auto;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  color: rgba(234,247,241,.9);
+  color: rgba(234,247,241,.88);
+  text-align:center;
 }
-
-
 .testInner h2{
   margin:0 0 12px;
   font-size: 28px;
   color: var(--gold-1);
 }
 
-
 .testInner p{
-  margin:0;
+  margin:0 auto 18px;
   font-size: 18px;
   line-height:1.6;
+  max-width: 62ch;
 }
+
+
+
 .content{
   position:relative;
   padding:120px 20px;
@@ -296,10 +298,12 @@ body{
 }
 
 .dividerText{
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(28px, 4vw, 44px);
+  font-family: 'Tangerine', cursive;
+  font-weight:700;
+  font-size: clamp(32px, 4vw, 50px);
   color: var(--gold-1);
   letter-spacing:.04em;
+  line-height: 1.5;
 }
 
 @media (max-width: 520px){
@@ -327,4 +331,123 @@ body{
     width: min(340px, 88vw);
     padding: 16px 22px;
   }
+}
+.testInner{
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.9;
+  color: rgba(234,247,241,.9);
+}
+
+.testInner p{
+  margin: 0 0 26px;
+}
+
+.lead{
+  font-size: clamp(22px, 3vw, 28px);
+}
+
+.emphasis{
+  font-weight: 700;
+  color: var(--gold-2);
+}
+
+.callout{
+  font-family: 'Tangerine', cursive;
+  font-size: clamp(30px, 4vw, 48px);
+  color: var(--gold-1);
+  line-height: 1.35;
+  margin: 24px auto;
+  max-width: 62ch;
+}
+
+.portalStatement{
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(28px, 4vw, 42px);
+  margin: 40px 0;
+  color: var(--gold-1);
+  text-align: center;
+}
+
+.emphasisBlock{
+  font-size: clamp(22px, 3vw, 28px);
+  color: var(--gold-2);
+  text-align: center;
+}
+/* =========================
+   TEST SECTION — RESET + MATCH ORIGINAL
+   (centered, clean sans, readable)
+   ========================= */
+
+.testSection{
+  /* keep your emerald hero-like background (if you already set it) */
+  position: relative;
+  padding: 80px 20px;
+  text-align: center;
+  color: rgba(234,247,241,.88);
+}
+
+.testInner{
+  width: min(800px, 92vw);
+  margin: 0 auto;
+
+  /* THIS is the original “regular” font vibe */
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+
+  /* reset any inherited weirdness */
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  text-align: center;
+}
+
+.testInner h2{
+  margin: 0 0 12px;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gold-1);
+  letter-spacing: normal;
+}
+
+.testInner p{
+  margin: 0 auto 18px;
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 62ch;
+}
+
+/* gold emphasis inside lines */
+.testInner .emphasis{
+  font-weight: 700;
+  color: var(--gold-2);
+}
+
+/* CALL OUTS (Tangerine) — centered + readable */
+.testInner .callout{
+  font-family: "Playfair";
+  font-weight: 700;
+  font-size: clamp(28px, 6vw, 44px);
+  line-height: 1.25;
+  color: var(--gold-1);
+
+  /* keeps it centered and not tiny */
+  display: block;
+  margin: 22px auto;
+  max-width: 62ch;
+
+  /* reset anything that could make it look “off” */
+  letter-spacing: 0;
+  text-transform: none;
+  font-style: normal;
+}
+
+/* If you used portalStatement earlier, make it match the original look too */
+.testInner .portalStatement{
+  margin: 28px auto;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gold-1);
+  max-width: 62ch;
+  line-height: 1.2;
 }
