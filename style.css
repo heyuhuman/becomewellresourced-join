@@ -110,11 +110,10 @@ body{
 .kicker{
   letter-spacing:.22em;
   text-transform:uppercase;
-  color: rgba(234,247,241,.85);
+  color: white;
   margin-bottom: 14px;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   margin: 10px auto 22px;
-  color: var(--muted);
   font-size: clamp(14px, 3.8vw, 18px);
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -163,7 +162,7 @@ body{
 .sub{
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   margin: 10px auto 22px;
-  color: var(--muted);
+  color: white;
   font-size: clamp(14px, 3.8vw, 18px);
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -288,7 +287,7 @@ body{
    ========================= */
 .dividerSection{
   background:#062A21;
-  padding: clamp(60px, 10vh, 120px) 20px;
+  padding: 50px 20px;
   text-align:center;
 }
 
@@ -297,13 +296,14 @@ body{
   margin:0 auto;
 }
 
-.dividerText{
-  font-family: 'Tangerine', cursive;
-  font-weight:700;
-  font-size: clamp(32px, 4vw, 50px);
-  color: var(--gold-1);
-  letter-spacing:.04em;
-  line-height: 1.5;
+.dividerText {
+    font-family: 'Cormorant Garamond';
+    font-weight: 700;
+    font-size: clamp(25px, 4vw, 35px);
+    color: var(--gold-1);
+    letter-spacing: .04em;
+    line-height: 1.2;
+    font-style: italic;
 }
 
 @media (max-width: 520px){
@@ -318,12 +318,10 @@ body{
   }
 
   .title .prosperity{
-    font-size: clamp(40px, 12vw, 64px);
     letter-spacing: .08em;  /* reduce so it doesn’t push wider than screen */
   }
 
   .title .portal{
-    font-size: clamp(32px, 10vw, 52px);
     letter-spacing: .16em;  /* reduce */
   }
 
@@ -564,6 +562,11 @@ body{
 
   filter: blur(10px);
   mix-blend-mode: screen;
+}
+@media (max-width: 520px){
+  .mist{ opacity: .18; }                /* less haze over small screens */
+  .cosmicGalaxy::after{ filter: blur(12px); opacity: .85; }
+  
 }
 
 /* Optional: make edges darker (vignette) */
