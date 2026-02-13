@@ -205,3 +205,22 @@
   createSparkleField(document.getElementById("sparkles"));
   createSparkleField(document.getElementById("sparklesBottom"));
 })();
+// ====== PERSONALIZED KICKER ======
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get("name");
+
+  if(!name) return;
+
+  const kicker = document.querySelector(".kicker");
+  if(!kicker) return;
+
+  // Clean + format name
+  const formattedName = decodeURIComponent(name)
+    .trim()
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+
+  kicker.innerHTML = `${formattedName}, WELCOME TO THE`;
+})();
