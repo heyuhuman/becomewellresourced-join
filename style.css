@@ -602,3 +602,12 @@ body{
   color: var(--gold-1);
   font-weight: 700;
 }
+
+.thoughtMirror {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  max-width: 700px;
+  margin: 20px auto 40px auto;
+  opacity: 0.9;
+}
+
