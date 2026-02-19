@@ -211,7 +211,7 @@
   const params = new URLSearchParams(window.location.search);
 
   // -----------------------------
-  // NAME KICKERS
+  // NAME
   // -----------------------------
   const rawName = params.get("name");
   const topKicker = document.querySelector(".kicker:not(.bottomKicker)");
@@ -229,9 +229,9 @@
   }
 
   // -----------------------------
-  // IDENTITY BLOCK
+  // IDENTITY
   // -----------------------------
-  const rawIdentity = (params.get("identity") || "").trim();
+  const rawIdentity = params.get("identity");
   const identityEl = document.getElementById("ptIdentity");
 
   if (identityEl) {
@@ -239,10 +239,7 @@
       identityEl.remove();
     } else {
       const text = decodeURIComponent(rawIdentity).replace(/\\n/g, "\n");
-      const lines = text
-        .split("\n")
-        .map(s => s.trim())
-        .filter(Boolean);
+      const lines = text.split("\n").map(s => s.trim()).filter(Boolean);
 
       identityEl.innerHTML = lines
         .map(line => '<div class="line">' + escapeHtml(line) + "</div>")
@@ -251,16 +248,22 @@
   }
 
   // -----------------------------
-  // THOUGHT MIRROR (utm)
+  // THOUGHT MIRROR
   // -----------------------------
-  const utm = params.get("utm");
-  if (utm === "thoughtmirror") {
-    const mirrorBlock = document.getElementById("thought-mirror");
-    if (mirrorBlock) mirrorBlock.style.display = "block";
+  const rawMirror = params.get("thoughtmirror");
+  const mirrorEl = document.getElementById("thought-mirror");
+
+  if (mirrorEl) {
+    if (!rawMirror) {
+      mirrorEl.remove();
+    } else {
+      const mirrorText = decodeURIComponent(rawMirror);
+      mirrorEl.innerHTML = '<p class="thoughtMirror">' + escapeHtml(mirrorText) + "</p>";
+    }
   }
 
   // -----------------------------
-  // helper
+  // SAFE HTML ESCAPE
   // -----------------------------
   function escapeHtml(str) {
     return String(str)
