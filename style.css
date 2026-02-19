@@ -582,3 +582,23 @@ body{
 }
 .heroInner{ position:relative; z-index:3; }
 .grain{ z-index:2; }
+
+.identityBlock{
+  margin: 18px auto 0;
+  width: min(860px, 92vw);
+  text-align: center;
+  color: rgba(234,247,241,.92);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-size: clamp(15px, 2.6vw, 18px);
+  line-height: 1.75;
+}
+
+.identityBlock .line{
+  margin: 0 0 8px;
+}
+
+/* Optional: make it feel like “gold callout” without changing font */
+.identityBlock .line strong{
+  color: var(--gold-1);
+  font-weight: 700;
+}
