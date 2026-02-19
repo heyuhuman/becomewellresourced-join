@@ -207,54 +207,69 @@
 })();
 
 // ====== PERSONALIZED KICKERS ======
-(function(){
+(function () {
   const params = new URLSearchParams(window.location.search);
-  const rawName = params.get("name");
 
+  // -----------------------------
+  // NAME KICKERS
+  // -----------------------------
+  const rawName = params.get("name");
   const topKicker = document.querySelector(".kicker:not(.bottomKicker)");
   const bottomKicker = document.querySelector(".bottomKicker");
 
-  if(!rawName){
-    // No name in URL — leave default text
-    return;
+  if (rawName) {
+    const name = decodeURIComponent(rawName)
+      .trim()
+      .split(/\s+/)
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+
+    if (topKicker) topKicker.textContent = name + ", WELCOME TO THE";
+    if (bottomKicker) bottomKicker.textContent = name + "... JOIN US INSIDE THE";
   }
 
-  // Clean + format name safely
-  const name = decodeURIComponent(rawName)
-    .trim()
-    .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
+  // -----------------------------
+  // IDENTITY BLOCK
+  // -----------------------------
+  const rawIdentity = (params.get("identity") || "").trim();
+  const identityEl = document.getElementById("ptIdentity");
 
-  if(topKicker){
-    topKicker.textContent = `${name}, WELCOME TO THE`;
+  if (identityEl) {
+    if (!rawIdentity) {
+      identityEl.remove();
+    } else {
+      const text = decodeURIComponent(rawIdentity).replace(/\\n/g, "\n");
+      const lines = text
+        .split("\n")
+        .map(s => s.trim())
+        .filter(Boolean);
+
+      identityEl.innerHTML = lines
+        .map(line => '<div class="line">' + escapeHtml(line) + "</div>")
+        .join("");
+    }
   }
 
-  if(bottomKicker){
-    bottomKicker.textContent = `${name}… JOIN US INSIDE THE`;
-  }
-})();
-
-(() => {
-  const params = new URLSearchParams(window.location.search);
-  const raw = (params.get("identity") || "").trim();
-
-  const el = document.getElementById("ptIdentity");
-  if (!el) return;
-
-  // If nothing passed, remove the whole block
-  if (!raw) {
-    el.remove();
-    return;
+  // -----------------------------
+  // THOUGHT MIRROR (utm)
+  // -----------------------------
+  const utm = params.get("utm");
+  if (utm === "thoughtmirror") {
+    const mirrorBlock = document.getElementById("thought-mirror");
+    if (mirrorBlock) mirrorBlock.style.display = "block";
   }
 
-  // Support line breaks passed as %0A (actual newlines) or \n
-  const text = raw.replace(/\\n/g, "\n");
-  const lines = text.split("\n").map(s => s.trim()).filter(Boolean);
-
-  el.innerHTML = lines
-    .map(line => `<div class="line">${line}</div>`)
-    .join("");
+  // -----------------------------
+  // helper
+  // -----------------------------
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
 })();
 
 
