@@ -235,4 +235,27 @@
   }
 })();
 
+(() => {
+  const params = new URLSearchParams(window.location.search);
+  const raw = (params.get("identity") || "").trim();
+
+  const el = document.getElementById("ptIdentity");
+  if (!el) return;
+
+  // If nothing passed, remove the whole block
+  if (!raw) {
+    el.remove();
+    return;
+  }
+
+  // Support line breaks passed as %0A (actual newlines) or \n
+  const text = raw.replace(/\\n/g, "\n");
+  const lines = text.split("\n").map(s => s.trim()).filter(Boolean);
+
+  el.innerHTML = lines
+    .map(line => `<div class="line">${line}</div>`)
+    .join("");
+})();
+
+
 
