@@ -1,0 +1,30 @@
+name: Build contacts.json from CSV
+
+on:
+  push:
+    paths:
+      - "contacts.csv"
+      - "scripts/csv_to_contacts_json.py"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate contacts.json
+        run: python scripts/csv_to_contacts_json.py
+
+      - name: Commit generated file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add contacts.json
+          git diff --staged --quiet || git commit -m "Auto-build contacts.json"
+          git push
