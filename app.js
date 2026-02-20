@@ -209,41 +209,36 @@
 // ====== PERSONALIZED FIELDS ON SALES PAGE ======
 (function () {
   const params = new URLSearchParams(window.location.search);
+  const cid =
+    params.get("cid") ||
+    params.get("contactId") ||
+    params.get("contact_id");
 
-  // Accept cid=, contactId=, contact_id=
-  const cid = params.get("cid") || params.get("contactId") || params.get("contact_id");
   if (!cid) return;
 
-  // Use ./contacts.json if you ever host under a subfolder path
   fetch("/contacts.json", { cache: "no-store" })
-    .then((res) => {
-      if (!res.ok) throw new Error("contacts.json not found");
-      return res.json();
-    })
+    .then((res) => (res.ok ? res.json() : Promise.reject()))
     .then((all) => {
       const record = all[String(cid)];
       if (!record) return;
 
-      // 1) Special handling: name in header kicker
-      if (record.name) {
-        const displayName = String(record.name).trim();
-        if (displayName) {
-          const kicker = document.querySelector(".kicker");
-          if (kicker) kicker.textContent = `${displayName}, WELCOME TO THE`;
-        }
-      }
+      const name = (record.name || "").toString().trim();
+      if (!name) return;
 
-      // 2) Generic dynamic injection for any fields you add later
-      for (const [key, value] of Object.entries(record)) {
-        const nodes = document.querySelectorAll(`[data-dynamic="${CSS.escape(key)}"]`);
-        nodes.forEach((node) => {
-          node.textContent = value;
-        });
-      }
+      // Build derived field
+      const nameWithComma = `${name}, `;
+
+      // Inject [data-dynamic="name"]
+      document.querySelectorAll('[data-dynamic="name"]').forEach((node) => {
+        node.textContent = name;
+      });
+
+      // Inject [data-dynamic="nameWithComma"]
+      document.querySelectorAll('[data-dynamic="nameWithComma"]').forEach((node) => {
+        node.textContent = nameWithComma;
+      });
     })
     .catch(() => {
-      // keep defaults if anything fails
+      // keep defaults
     });
 })();
-
-
