@@ -1,41 +1,20 @@
-import csv, json, sys, pathlib
-
-ROOT = pathlib.Path(__file__).resolve().parents[1]
-csv_path = ROOT / "data" / "contacts.csv"
-json_path = ROOT / "data" / "contacts.json"
-
-def main():
-    # Allow optional args: python script.py input.csv output.json
-    in_path = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else csv_path
-    out_path = pathlib.Path(sys.argv[2]) if len(sys.argv) > 2 else json_path
-
-    with in_path.open("r", encoding="utf-8-sig", newline="") as f:
-        reader = csv.DictReader(f)
-        if "cid" not in reader.fieldnames:
-            raise SystemExit("CSV must include a 'cid' column as the lookup key.")
-
-        out = {}
-        for row in reader:
-            cid = (row.get("cid") or "").strip()
-            if not cid:
-                continue
-
-            # Build record: every column except cid, ignoring blanks
-            record = {}
-            for k, v in row.items():
-                if k == "cid":
-                    continue
-                if v is None:
-                    continue
-                v = v.strip()
-                if v != "":
-                    record[k] = v
-
-            out[cid] = record
-
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Wrote {out_path} with {len(out)} contacts.")
-
-if __name__ == "__main__":
-    main()
+{
+  "12345": {
+    "headline": "WELCOME BACK MELISSA",
+    "topKicker": "Your prosperity pathway is already open.",
+    "bottomKicker": "Today you stop negotiating with your potential.",
+    "identityOpening": "The version of you who wants bigger income without burnout."
+  },
+  "67890": {
+    "headline": "WELCOME BACK SARAH",
+    "topKicker": "You\u2019re closer than you think.",
+    "bottomKicker": "This is the timeline where wealth is inevitable.",
+    "identityOpening": "The version of you who leads with calm power."
+  },
+  "789": {
+    "headline": "new headline",
+    "topKicker": "new top kicker",
+    "bottomKicker": "new bottom kicker",
+    "identityOpening": "totally new opening comment."
+  }
+}
