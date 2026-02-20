@@ -275,5 +275,40 @@
   }
 })();
 
+(function () {
+  // --- 1) Get the contact id from URL ---
+  const params = new URLSearchParams(window.location.search);
 
+  // supports cid=, contactId=, contact_id=
+  const cid =
+    params.get("cid") ||
+    params.get("contactId") ||
+    params.get("contact_id");
+
+  if (!cid) return; // no cid -> keep defaults
+
+  // --- 2) Load contacts.json ---
+  fetch("/contacts.json", { cache: "no-store" })
+    .then((res) => {
+      if (!res.ok) throw new Error("contacts.json not found");
+      return res.json();
+    })
+    .then((all) => {
+      const record = all[String(cid)];
+      if (!record) return; // unknown cid -> keep defaults
+
+      // --- 3) Inject text values ---
+      Object.keys(record).forEach((key) => {
+        const nodes = document.querySelectorAll(
+          `[data-dynamic="${CSS.escape(key)}"]`
+        );
+        nodes.forEach((node) => {
+          node.textContent = record[key];
+        });
+      });
+    })
+    .catch(() => {
+      // if fetch fails -> keep defaults
+    });
+})();
 
