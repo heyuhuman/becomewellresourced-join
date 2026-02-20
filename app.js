@@ -206,88 +206,15 @@
   createSparkleField(document.getElementById("sparklesBottom"));
 })();
 
-// ====== PERSONALIZED KICKERS ======
+// ====== PERSONALIZED FIELDS ON SALES PAGE ======
 (function () {
   const params = new URLSearchParams(window.location.search);
 
-  // -----------------------------
-  // NAME
-  // -----------------------------
-  const rawName = params.get("name");
-  const topKicker = document.querySelector(".kicker:not(.bottomKicker)");
-  const bottomKicker = document.querySelector(".bottomKicker");
+  // Accept cid=, contactId=, contact_id=
+  const cid = params.get("cid") || params.get("contactId") || params.get("contact_id");
+  if (!cid) return;
 
-  if (rawName) {
-    const name = decodeURIComponent(rawName)
-      .trim()
-      .split(/\s+/)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-
-    if (topKicker) topKicker.textContent = name + ", WELCOME TO THE";
-    if (bottomKicker) bottomKicker.textContent = name + "... JOIN US INSIDE THE";
-  }
-
-  // -----------------------------
-  // IDENTITY
-  // -----------------------------
-  const rawIdentity = params.get("identity");
-  const identityEl = document.getElementById("ptIdentity");
-
-  if (identityEl) {
-    if (!rawIdentity) {
-      identityEl.remove();
-    } else {
-      const text = decodeURIComponent(rawIdentity).replace(/\\n/g, "\n");
-      const lines = text.split("\n").map(s => s.trim()).filter(Boolean);
-
-      identityEl.innerHTML = lines
-        .map(line => '<div class="line">' + escapeHtml(line) + "</div>")
-        .join("");
-    }
-  }
-
-  // -----------------------------
-  // THOUGHT MIRROR
-  // -----------------------------
-  const rawMirror = params.get("thoughtmirror");
-  const mirrorEl = document.getElementById("thought-mirror");
-
-  if (mirrorEl) {
-    if (!rawMirror) {
-      mirrorEl.remove();
-    } else {
-      const mirrorText = decodeURIComponent(rawMirror);
-      mirrorEl.innerHTML = '<p class="thoughtMirror">' + escapeHtml(mirrorText) + "</p>";
-    }
-  }
-
-  // -----------------------------
-  // SAFE HTML ESCAPE
-  // -----------------------------
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
-})();
-
-(function () {
-  // --- 1) Get the contact id from URL ---
-  const params = new URLSearchParams(window.location.search);
-
-  // supports cid=, contactId=, contact_id=
-  const cid =
-    params.get("cid") ||
-    params.get("contactId") ||
-    params.get("contact_id");
-
-  if (!cid) return; // no cid -> keep defaults
-
-  // --- 2) Load contacts.json ---
+  // Use ./contacts.json if you ever host under a subfolder path
   fetch("/contacts.json", { cache: "no-store" })
     .then((res) => {
       if (!res.ok) throw new Error("contacts.json not found");
@@ -295,20 +222,28 @@
     })
     .then((all) => {
       const record = all[String(cid)];
-      if (!record) return; // unknown cid -> keep defaults
+      if (!record) return;
 
-      // --- 3) Inject text values ---
-      Object.keys(record).forEach((key) => {
-        const nodes = document.querySelectorAll(
-          `[data-dynamic="${CSS.escape(key)}"]`
-        );
+      // 1) Special handling: name in header kicker
+      if (record.name) {
+        const displayName = String(record.name).trim();
+        if (displayName) {
+          const kicker = document.querySelector(".kicker");
+          if (kicker) kicker.textContent = `${displayName}, WELCOME TO THE`;
+        }
+      }
+
+      // 2) Generic dynamic injection for any fields you add later
+      for (const [key, value] of Object.entries(record)) {
+        const nodes = document.querySelectorAll(`[data-dynamic="${CSS.escape(key)}"]`);
         nodes.forEach((node) => {
-          node.textContent = record[key];
+          node.textContent = value;
         });
-      });
+      }
     })
     .catch(() => {
-      // if fetch fails -> keep defaults
+      // keep defaults if anything fails
     });
 })();
+
 
