@@ -222,23 +222,33 @@
       const record = all[String(cid)];
       if (!record) return;
 
+      // ----------------------------
+      // NAME handling
+      // ----------------------------
       const name = (record.name || "").toString().trim();
-      if (!name) return;
+      if (name) {
+        const nameWithComma = `${name}, `;
 
-      // Build derived field
-      const nameWithComma = `${name}, `;
+        document.querySelectorAll('[data-dynamic="name"]').forEach((n) => {
+          n.textContent = name;
+        });
 
-      // Inject [data-dynamic="name"]
-      document.querySelectorAll('[data-dynamic="name"]').forEach((node) => {
-        node.textContent = name;
-      });
+        document.querySelectorAll('[data-dynamic="nameWithComma"]').forEach((n) => {
+          n.textContent = nameWithComma;
+        });
+      }
 
-      // Inject [data-dynamic="nameWithComma"]
-      document.querySelectorAll('[data-dynamic="nameWithComma"]').forEach((node) => {
-        node.textContent = nameWithComma;
-      });
+      // ----------------------------
+      // GENDER handling
+      // ----------------------------
+      const gender = (record.gender || "female").toLowerCase();
+
+      if (gender === "male") {
+        document.body.innerHTML = document.body.innerHTML
+          .replace(/\bshe\b/gi, "he")
+          .replace(/\bher\b/gi, "him")
+          .replace(/\bwoman\b/gi, "man");
+      }
     })
-    .catch(() => {
-      // keep defaults
-    });
+    .catch(() => {});
 })();
