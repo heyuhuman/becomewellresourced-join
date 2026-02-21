@@ -257,53 +257,16 @@
       }
 
       // ----------------------------
-// GENDER handling (SAFE: does NOT rewrite the DOM)
-// ----------------------------
-const gender = (record.gender || "female").toLowerCase();
+      // GENDER handling
+      // ----------------------------
+      const gender = (record.gender || "female").toLowerCase();
 
-if (gender === "male") {
-  const swapMap = [
-    [/\bshe\b/gi, "he"],
-    [/\bher\b/gi, "him"],
-    [/\bwoman\b/gi, "man"],
-  ];
-
-  // Walk text nodes only (keeps canvas + event listeners intact)
-  const walker = document.createTreeWalker(
-    document.body,
-    NodeFilter.SHOW_TEXT,
-    {
-      acceptNode(node) {
-        const parent = node.parentElement;
-        if (!parent) return NodeFilter.FILTER_REJECT;
-
-        // Skip anything that should never be touched
-        const tag = parent.tagName;
-        if (
-          tag === "SCRIPT" ||
-          tag === "STYLE" ||
-          tag === "NOSCRIPT" ||
-          tag === "CANVAS"
-        ) {
-          return NodeFilter.FILTER_REJECT;
-        }
-
-        // Optional: add this attribute to any block you want excluded
-        if (parent.closest("[data-no-gender-swap]")) {
-          return NodeFilter.FILTER_REJECT;
-        }
-
-        return NodeFilter.FILTER_ACCEPT;
-      },
-    }
-  );
-
-  const textNodes = [];
-  while (walker.nextNode()) textNodes.push(walker.currentNode);
-
-  textNodes.forEach((node) => {
-    let v = node.nodeValue;
-    swapMap.forEach(([re, rep]) => (v = v.replace(re, rep)));
-    node.nodeValue = v;
-  });
-}
+      if (gender === "male") {
+        document.body.innerHTML = document.body.innerHTML
+          .replace(/\bshe\b/gi, "he")
+          .replace(/\bher\b/gi, "him")
+          .replace(/\bwoman\b/gi, "man");
+      }
+    })
+    .catch(() => {});
+})();
