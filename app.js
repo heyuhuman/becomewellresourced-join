@@ -311,3 +311,20 @@ if (gender === "male") {
     })
     .catch(() => {});
 })();
+
+// ----------------------------
+// READING INTRO handling (supports bold/underline)
+// ----------------------------
+const readingIntro = (record.reading_intro || "").toString().trim();
+
+if (readingIntro) {
+  // If your JSON uses \n\n for paragraphs, convert to <br><br> for HTML display
+  const html = readingIntro
+    .replace(/\r\n/g, "\n")
+    .replace(/\n\n+/g, "<br><br>")
+    .replace(/\n/g, "<br>");
+
+  document.querySelectorAll('[data-dynamic="reading_intro"]').forEach((el) => {
+    el.innerHTML = html; // IMPORTANT: innerHTML so <strong><u> works
+  });
+}
