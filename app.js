@@ -205,7 +205,44 @@
   createSparkleField(document.getElementById("sparkles"));
   createSparkleField(document.getElementById("sparklesBottom"));
 })();
+//====== GENDER STYLING =====
 
+function replaceWordsInTextNodes(root, replacers) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      const p = node.parentElement;
+      if (!p) return NodeFilter.FILTER_REJECT;
+
+      // Skip elements where text replacement is risky / pointless
+      const tag = p.tagName;
+      if (
+        tag === "SCRIPT" ||
+        tag === "STYLE" ||
+        tag === "NOSCRIPT" ||
+        tag === "CANVAS" ||
+        tag === "TEXTAREA" ||
+        tag === "INPUT"
+      ) return NodeFilter.FILTER_REJECT;
+
+      // Optional: skip anything marked "no gender swap"
+      if (p.closest('[data-no-gender-swap="true"]')) return NodeFilter.FILTER_REJECT;
+
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+
+  let node;
+  while ((node = walker.nextNode())) {
+    let txt = node.nodeValue;
+    let next = txt;
+
+    for (const { re, to } of replacers) {
+      next = next.replace(re, to);
+    }
+
+    if (next !== txt) node.nodeValue = next;
+  }
+}
 // ====== PERSONALIZED FIELDS ON SALES PAGE ======
 (function () {
   const params = new URLSearchParams(window.location.search);
@@ -256,17 +293,21 @@
         });
       }
 
-      // ----------------------------
-      // GENDER handling
-      // ----------------------------
-      const gender = (record.gender || "female").toLowerCase();
+     // ----------------------------
+// GENDER handling
+// ----------------------------
+const gender = (record.gender || "female").toLowerCase();
 
-      if (gender === "male") {
-        document.body.innerHTML = document.body.innerHTML
-          .replace(/\bshe\b/gi, "he")
-          .replace(/\bher\b/gi, "him")
-          .replace(/\bwoman\b/gi, "man");
-      }
+if (gender === "male") {
+  replaceWordsInTextNodes(document.body, [
+    { re: /\bshe\b/gi,   to: "he"  },
+    { re: /\bher\b/gi,   to: "him" }, // consider "his" in some sentences
+    { re: /\bhers\b/gi,  to: "his" },
+    { re: /\bherself\b/gi, to: "himself" },
+    { re: /\bwoman\b/gi, to: "man" },
+    { re: /\bwomen\b/gi, to: "men" },
+  ]);
+}
     })
     .catch(() => {});
 })();
