@@ -207,6 +207,7 @@
 })();
 
 // ====== PERSONALIZED FIELDS ON SALES PAGE ======
+// ====== PERSONALIZED FIELDS ON SALES PAGE ======
 (function () {
   const params = new URLSearchParams(window.location.search);
   const cid =
@@ -235,6 +236,24 @@
 
         document.querySelectorAll('[data-dynamic="nameWithComma"]').forEach((n) => {
           n.textContent = nameWithComma;
+        });
+      }
+
+      // ----------------------------
+      // VISION handling
+      // ----------------------------
+      const vision1 = (record.vision1 || "").toString().trim();
+      const vision2 = (record.vision2 || "").toString().trim();
+
+      if (vision1) {
+        document.querySelectorAll('[data-dynamic="vision1"]').forEach((el) => {
+          el.textContent = vision1;
+        });
+      }
+
+      if (vision2) {
+        document.querySelectorAll('[data-dynamic="vision2"]').forEach((el) => {
+          el.textContent = vision2;
         });
       }
 
