@@ -40,8 +40,13 @@ with f:
                 continue
             if v is None:
                 continue
+
             v = v.strip()
             if v != "":
+                # Normalize escaped sequences if they somehow exist
+                v = v.replace("\\n", "\n")
+                v = v.replace('\\"', '"')
+
                 record[k] = v
 
         out[cid] = record
